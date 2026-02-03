@@ -1,0 +1,18 @@
+# python
+__pycache__/
+*.pyc
+
+# dataset (too large)
+data/
+
+# model files (can regenerate)
+src/models/*.h5
+
+# logs
+src/results/logs.csv
+
+# venv
+venv/
+
+# streamlit cache
+.streamlit/
