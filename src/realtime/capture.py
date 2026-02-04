@@ -1,22 +1,19 @@
-from scapy.all import sniff
-import numpy as np
-
-def extract_features(pkt):
-    """
-    Simple demo features (you can expand later)
-    """
-    length = len(pkt)
-    proto = 1 if pkt.haslayer("TCP") else 0
-    return np.array([length, proto])
+from scapy.all import sniff, IP
 
 
 def capture_packets(callback):
-    """
-    Captures live packets and sends features to callback
-    """
 
-    def process(pkt):
-        features = extract_features(pkt)
-        callback(features)
+    def handle(pkt):
+        if IP not in pkt:
+            return
 
-    sniff(prn=process, store=False)
+        src = pkt[IP].src
+        dst = pkt[IP].dst
+        proto = pkt[IP].proto
+
+        # simple dummy features (replace with your extractor)
+        features = [len(pkt)]
+
+        callback(features, src, dst, proto)
+
+    sniff(prn=handle, store=False)
